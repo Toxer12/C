@@ -1,0 +1,87 @@
+#include <stdio.h>
+ 
+ int main (void)
+ {
+   int liczba = 80;
+   printf("Wartość zmiennej liczba: %d\n", liczba );
+   printf("Adres zmiennej liczba: %p\n", &liczba );
+   return 0;
+ }
+ //////////////
+ #include <stdio.h>
+ 
+ int main (void)
+ {
+   int liczba = 80;
+   int *wskaznik = &liczba;   // wskaznik przechowuje adres, ktory pobieramy od zmiennej liczba
+
+   printf("Wartosc zmiennej: %d, jej adres: %p.\n", liczba, &liczba);
+   printf("Adres przechowywany we wskazniku: %p, wskazywana wartosc: %d.\n",
+          wskaznik, *wskaznik);
+ 
+   *wskaznik = 42;   // zapisanie liczby 42 do obiektu, na który wskazuje wskaznik
+   printf("Wartosc zmiennej: %d, wartosc wskazywana przez wskaznik: %d\n",
+          liczba, *wskaznik);
+ 
+   liczba = 0x42;  // liczba podana w systemie szesnastkowym, podana po prefiksie 0x
+   printf("Wartosc zmiennej: %d, wartosc wskazywana przez wskaznik: %d\n",
+          liczba, *wskaznik);
+ 
+   return 0;
+ }
+ ///////////////////
+ #include <stdio.h>
+ 
+ void func_var (int zmienna)
+ {
+   zmienna = 4;
+ }
+ void func_pointer (int *zmienna)
+ {
+   (*zmienna) = 5;
+ }
+
+ int main (void)
+ {
+   int z=3;
+   printf ("z= %d\n", z);
+
+   func_var (z);
+   printf ("z= %d\n", z);
+
+   func_pointer (&z);
+   printf ("z= %d\n", z);
+
+   return 0;
+ }
+ ///////////////////
+ Cos o mallocu
+ ///
+ #include <cstdlib>
+void * malloc( size_t size );
+///
+#include <stdio.h>   
+#include <stdlib.h> 
+ 
+int main(void) 
+{
+    int *p1 = malloc(4*sizeof(int));  // allocates enough for an array of 4 int
+    int *p2 = malloc(sizeof(int[4])); // same, naming the type directly
+    int *p3 = malloc(4*sizeof *p3);   // same, without repeating the type name
+ 
+    if(p1) {
+        for(int n=0; n<4; ++n) // populate the array
+            p1[n] = n*n;
+        for(int n=0; n<4; ++n) // print it back out
+            printf("p1[%d] == %d\n", n, p1[n]);
+    }
+ 
+    free(p1);
+    free(p2);
+    free(p3);
+}
+///
+p1[0] == 0
+p1[1] == 1
+p1[2] == 4
+p1[3] == 9
