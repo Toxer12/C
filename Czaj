@@ -1,0 +1,62 @@
+///naprawic///
+#include <stdio.h>
+#include <stdlib.h>
+
+void zad(char* a,char* b)
+{
+    char wynik[100];
+    int o=0;
+    int y =0;
+    int i=0;
+    while(a[i]!=0)
+    {
+        if(a[i]!=b[o])
+        {
+            wynik[y]=a[i];
+            y++;
+            i++;
+        }
+        else
+        {
+            o++;
+            i++;
+        }
+    }
+    printf(wynik);
+}
+
+int main()
+{
+    char a = "bruh";
+    char b = "ru";
+    zad(a,b);
+    return 0;
+}
+/////////////////////
+#include <stdio.h>
+#include <stdlib.h>
+
+void zad(char* a,char* b)
+{
+    for(int i =0;a[i]!=0;i++)
+    {
+        if(a[i]!=b[i])
+        {
+            printf("%c",a[i]);
+        }
+    }
+}
+
+int main()
+{
+    char a [10]= "arbuz";
+    char b [10]= "orbit";
+    zad(a,b);
+    return 0;
+}
+////////////////////////////
+istniejie komenda sprintf
+biblioteka #include <string.h>
+strlen
+strcpy
+ptrcat
