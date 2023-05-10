@@ -1,0 +1,26 @@
+///sumuj///
+int zad(int** t ,unsigned int n, unsigned int m)
+{
+    int i,j,wynik;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            wynik=wynik+t[i][j];
+        }
+    }
+    return wynik;
+}
+///zeruj///
+void zad(int** t ,unsigned int n, unsigned int m)
+{
+    int i,j,wynik;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            t[i][j]=0;
+        }
+    }
+}
+/////////////////////////////
