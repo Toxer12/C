@@ -1,0 +1,134 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+struct trojkat
+{
+    double a,b,c;
+};
+
+double obwod(struct trojkat t)
+{
+    return t.a+t.b+t.c;
+}
+
+double pole(struct trojkat t)
+{
+    double po =(t.a+t.b+t.c)/2;
+    return sqrt(po)*(po-t.a)*(po-t.b)*(po-t.c);
+}
+
+int main()
+{
+    struct trojkat t1;
+    t1.a=2;
+    t1.b=2;
+    t1.c=5;
+    printf("obwod %f\n", obwod(t1));
+    printf("%d\n",sizeof(double));
+    printf("%d\n",sizeof(struct trojkat));
+    printf("%f",pole(t1));
+    return 0;
+    /////////////////////
+    struct punkt
+{
+    double a,b,c;
+};
+
+double odleglosc(struct punkt p, struct punkt q)
+{
+    return sqrt((p.a-q.a)*(p.a-q.a)+(p.b-q.b)*(p.b-q.b)+(p.c-q.c)*(p.c-q.c));
+}
+
+int main()
+{
+    struct punkt p;
+    p.a=1;
+    p.b=2;
+    p.c=7;
+    struct punkt q;
+    q.a=5;
+    q.b=7;
+    q.c=9;
+    printf("%f",odleglosc(p,q));
+    return 0;
+}
+///////////////////////////////////////
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+struct zespolone
+{
+    double im,re;
+};
+
+struct zespolone zad(struct zespolone a,struct zespolone b)
+{
+    struct zespolone w;
+    w.im=a.im+b.im;
+    w.re=a.re+b.re;
+    return w;
+}
+
+int main()
+{
+    struct zespolone a;
+    struct zespolone b;
+    a.im=5;
+    a.re=7;
+    b.im=6;
+    b.re=3;
+    struct zespolone w =zad(a,b);
+    printf("%f+%fi\n",w.im,w.re);
+    return 0;
+}
+////////////////////////napraw//////////////////////////////////
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+struct zespolone
+{
+    double im,re;
+};
+
+struct zespolone zad(struct zespolone a,struct zespolone b)
+{
+    struct zespolone w;
+    w.im=(a.im*b.im)-(a.re*b.re);
+    w.re=(a.im*b.re)+(a.re+b.im);
+    return w;
+}
+
+int main()
+{
+    struct zespolone a;
+    struct zespolone b;
+    a.im=1;
+    a.re=3;
+    b.im=2;
+    b.re=1;
+    struct zespolone w =zad(a,b);
+    printf("%f+%fi\n",w.im,w.re);
+    return 0;
+}
+//////////////////////////////////
+union superint
+{
+    int i;
+    unsigned int u;
+};
+
+struct wieleint
+{
+    int i;
+    unsigned int u;
+};
+
+int main()
+{
+   struct wieleint x;
+   union superint y;
+    return 0;
+}
