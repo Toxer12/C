@@ -1,0 +1,420 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Struktura węzła listy
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Funkcja dodająca element na początek listy
+void push(Node** head, int value) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = value;
+    newNode->next = *head;
+    *head = newNode;
+}
+
+// Funkcja usuwająca środkowy element lub elementy z listy
+void removeMiddleElement(Node** head) {
+    if (*head == NULL)
+        return;
+
+    Node* slowPtr = *head;
+    Node* fastPtr = *head;
+    Node* prev = NULL;
+
+    // Przesuń szybki wskaźnik o 2 pozycje, a wolny wskaźnik o 1 pozycję
+    // Dopóki szybki wskaźnik nie osiągnie końca listy
+    while (fastPtr != NULL && fastPtr->next != NULL) {
+        fastPtr = fastPtr->next->next;
+        prev = slowPtr;
+        slowPtr = slowPtr->next;
+    }
+
+    // Usuń środkowy element lub elementy
+    if (prev != NULL) {
+        prev->next = slowPtr->next; // Przeskocz przez środkowy element
+        free(slowPtr);
+    } else {
+        *head = slowPtr->next; // Usuń pierwszy element jako środkowy
+        free(slowPtr);
+    }
+}
+
+// Funkcja wypisująca zawartość listy
+void printList(Node* node) {
+    while (node != NULL) {
+        printf("%d ", node->data);
+        node = node->next;
+    }
+    printf("\n");
+}
+
+// Funkcja zwalniająca pamięć zajętą przez listę
+void freeList(Node** head) {
+    Node* current = *head;
+    Node* next;
+
+    while (current != NULL) {
+        next = current->next;
+        free(current);
+        current = next;
+    }
+
+    *head = NULL;
+}
+
+int main() {
+    Node* head = NULL;
+
+    // Dodaj przykładowe elementy do listy
+    push(&head, 5);
+    push(&head, 4);
+    push(&head, 3);
+    push(&head, 2);
+    push(&head, 1);
+
+    printf("Lista przed usunięciem środkowego elementu(lub elementów): ");
+    printList(head);
+
+    removeMiddleElement(&head);
+
+    printf("Lista po usunięciu środkowego elementu(lub elementów): ");
+    printList(head);
+
+    // Zwolnij pamięć zajętą przez listę
+    freeList(&head);
+
+    return 0;
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <stdio.h>
+#include <stdlib.h>
+
+// Struktura węzła listy
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Funkcja dodająca element na koniec listy
+void append(Node** head, int value) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = value;
+    newNode->next = NULL;
+
+    if (*head == NULL) {
+        *head = newNode;
+        return;
+    }
+
+    Node* lastNode = *head;
+    while (lastNode->next != NULL) {
+        lastNode = lastNode->next;
+    }
+
+    lastNode->next = newNode;
+}
+
+// Funkcja usuwająca co drugi element z listy
+Node* removeEveryOther(Node* head) {
+    if (head == NULL)
+        return NULL;
+
+    Node* current = head;
+    Node* next = NULL;
+    Node* newHead = NULL;
+    Node* tail = NULL;
+    int count = 1;
+
+    while (current != NULL) {
+        if (count % 2 == 1) {
+            if (newHead == NULL) {
+                newHead = current;
+                tail = current;
+            } else {
+                tail->next = current;
+                tail = current;
+            }
+        }
+
+        next = current->next;
+        current->next = NULL;
+        free(current);
+        current = next;
+        count++;
+    }
+
+    return newHead;
+}
+
+// Funkcja wypisująca zawartość listy
+void printList(Node* node) {
+    while (node != NULL) {
+        printf("%d ", node->data);
+        node = node->next;
+    }
+    printf("\n");
+}
+
+// Funkcja zwalniająca pamięć zajętą przez listę
+void freeList(Node** head) {
+    Node* current = *head;
+    Node* next;
+
+    while (current != NULL) {
+        next = current->next;
+        free(current);
+        current = next;
+    }
+
+    *head = NULL;
+}
+
+int main() {
+    Node* head = NULL;
+
+    // Dodaj przykładowe elementy do listy
+    append(&head, 1);
+    append(&head, 2);
+    append(&head, 3);
+    append(&head, 4);
+    append(&head, 5);
+
+    printf("Lista przed usunięciem co drugiego elementu: ");
+    printList(head);
+
+    Node* newHead = removeEveryOther(head);
+
+    printf("Lista po usunięciu co drugiego elementu: ");
+    printList(newHead);
+
+    // Zwolnij pamięć zajętą przez listy
+    freeList(&head);
+    freeList(&newHead);
+
+    return 0;
+}
+
+#include <stdio.h>
+
+// Funkcja odwracająca kolejność we wszystkich kolumnach tablicy
+void odwrocKolumny(int tab[][3], int wymiar) {
+    for (int k = 0; k < wymiar; k++) {
+        int i = 0;
+        int j = wymiar - 1;
+        
+        while (i < j) {
+            int temp = tab[i][k];
+            tab[i][k] = tab[j][k];
+            tab[j][k] = temp;
+            i++;
+            j--;
+        }
+    }
+}
+
+// Funkcja wypisująca zawartość tablicy
+void wypiszTablice(int tab[][3], int wymiar) {
+    for (int i = 0; i < wymiar; i++) {
+        for (int j = 0; j < 3; j++) {
+            printf("%d ", tab[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int tablica[][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    int wymiar = 3;
+
+    printf("Tablica przed odwróceniem kolumn:\n");
+    wypiszTablice(tablica, wymiar);
+
+    odwrocKolumny(tablica, wymiar);
+
+    printf("Tablica po odwróceniu kolumn:\n");
+    wypiszTablice(tablica, wymiar);
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////
+#include <stdio.h>
+
+// Funkcja przesuwająca kolumny tablicy o dwa miejsca w prawo
+void przesunKolumny(int tab[][4], int wymiar1, int wymiar2) {
+    for (int i = 0; i < wymiar1; i++) {
+        int temp1 = tab[i][wymiar2 - 1];
+        int temp2 = tab[i][wymiar2 - 2];
+        
+        for (int j = wymiar2 - 1; j >= 2; j--) {
+            tab[i][j] = tab[i][j - 2];
+        }
+        
+        tab[i][0] = temp2;
+        tab[i][1] = temp1;
+    }
+}
+
+// Funkcja wypisująca zawartość tablicy
+void wypiszTablice(int tab[][4], int wymiar1, int wymiar2) {
+    for (int i = 0; i < wymiar1; i++) {
+        for (int j = 0; j < wymiar2; j++) {
+            printf("%d ", tab[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int tablica[][4] = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
+    int wymiar1 = 3;
+    int wymiar2 = 4;
+
+    printf("Tablica przed przesunięciem kolumn:\n");
+    wypiszTablice(tablica, wymiar1, wymiar2);
+
+    przesunKolumny(tablica, wymiar1, wymiar2);
+
+    printf("Tablica po przesunięciu kolumn:\n");
+    wypiszTablice(tablica, wymiar1, wymiar2);
+
+    return 0;
+}
+////////////////////////////////////////////////////////////////////////////////////
+#include <stdio.h>
+
+// Funkcja obliczająca ślad kwadratowej macierzy
+int obliczSlad(int tab[][3], int wymiar) {
+    int slad = 0;
+
+    for (int i = 0; i < wymiar; i++) {
+        slad += tab[i][i];
+    }
+
+    return slad;
+}
+
+int main() {
+    int macierz[][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    int wymiar = 3;
+
+    int slad = obliczSlad(macierz, wymiar);
+
+    printf("Ślad macierzy: %d\n", slad);
+
+    return 0;
+}
+//////////////////////////////////////////////////////////////////////////////////////
+// Funkcja obliczająca sumę elementów parzystych macierzy znajdujących się na jej brzegu
+int obliczSumeBrzegu(int m, int n, int tab[][n]) {
+    int suma = 0;
+
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
+                if (tab[i][j] % 2 == 0) {
+                    suma += tab[i][j];
+                }
+            }
+        }
+    }
+
+    return suma;
+}
+
+int main() {
+    int m = 4;
+    int n = 5;
+    int macierz[][5] = {{1, 2, 3, 4, 5},
+                        {6, 7, 8, 9, 10},
+                        {11, 12, 13, 14, 15},
+                        {16, 17, 18, 19, 20}};
+
+    int sumaBrzegu = obliczSumeBrzegu(m, n, macierz);
+
+    printf("Suma elementów parzystych na brzegu macierzy: %d\n", sumaBrzegu);
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Funkcja modyfikująca napis przez wstawienie dużej litery "W" pomiędzy sąsiadujące małe litery "a" i "b"
+char* modyfikujNapis(const char* napis) {
+    int dlugosc = strlen(napis);
+    char* wynik = (char*)malloc((2 * dlugosc + 1) * sizeof(char));  // +1 dla znaku null-terminującego
+    int indeks_wynik = 0;
+
+    for (int i = 0; i < dlugosc; i++) {
+        if (napis[i] == 'a' && napis[i + 1] == 'b') {
+            wynik[indeks_wynik++] = 'a';
+            wynik[indeks_wynik++] = 'W';
+            wynik[indeks_wynik++] = 'b';
+            i++;  // Pomijamy kolejny znak 'b', ponieważ już go obsłużyliśmy
+        } else {
+            wynik[indeks_wynik++] = napis[i];
+        }
+    }
+
+    wynik[indeks_wynik] = '\0';  // Dodanie znaku null-terminującego na końcu napisu
+
+    return wynik;
+}
+
+int main() {
+    const char* napis = "abcfghabxyz";
+    char* wynik = modyfikujNapis(napis);
+
+    printf("Napis po modyfikacji: %s\n", wynik);
+
+    free(wynik);  // Zwolnienie zaalokowanej pamięci
+
+    return 0;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+// Funkcja modyfikująca napis z danymi osobowymi
+char* zmienFormat(const char* napis) {
+    int dlugosc = strlen(napis);
+    char* wynik = (char*)malloc((2 * dlugosc + 2) * sizeof(char));  // +2 dla kropki i znaku null-terminującego
+    int indeks_wynik = 0;
+
+    int i = 0;
+    while (napis[i] != ' ' && napis[i] != '\0') {
+        wynik[indeks_wynik++] = toupper(napis[i]);
+        i++;
+    }
+
+    if (napis[i] == ' ') {
+        wynik[indeks_wynik++] = '.';
+        i++;
+    }
+
+    while (napis[i] != '\0') {
+        wynik[indeks_wynik++] = tolower(napis[i]);
+        i++;
+    }
+
+    wynik[indeks_wynik] = '\0';  // Dodanie znaku null-terminującego na końcu napisu
+
+    return wynik;
+}
+
+int main() {
+    const char* napis = "KAMIL NOWAK";
+    char* wynik = zmienFormat(napis);
+
+    printf("Napis po modyfikacji: %s\n", wynik);
+
+    free(wynik);  // Zwolnienie zaalokowanej pamięci
+
+    return 0;
+}
